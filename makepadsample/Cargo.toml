@@ -1,0 +1,16 @@
+[package]
+name = "makepadsample"
+version = "0.1.0"
+edition = "2021"
+description = "Makepad library sample"
+
+[lib]
+crate-type = ["lib", "staticlib", "cdylib"]
+name = "makepadsample"
+
+[target.'cfg(not(target_os = "ios"))'.dependencies]
+makepad-widgets = { git = "https://github.com/makepad/makepad", rev = "259b40543c993cb0e9618bcff0c0a64e08dcd936" }
+
+[target.'cfg(target_os = "ios")'.dependencies]
+makepad-widgets-ios = { package = "makepad-widgets", git = "https://github.com/ajoklar/makepad", branch = "ajoklar" }
+# makepad-widgets-ios = { package = "makepad-widgets", path = "../../makepad/widgets" }
