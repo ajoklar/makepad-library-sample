@@ -7,6 +7,14 @@ Makepad is a cross-platform app framework written in Rust. It allows to build co
 - [Compose Multiplatform](https://github.com/JetBrains/compose-multiplatform)
 - [Flutter](https://docs.flutter.dev/add-to-app/android/add-flutter-view)
 
+## Screen Recordings
+
+The Makepad example `news_feed` is presented within a Jetpack Compose / SwiftUI view hierarchy.
+
+[recording_android.webm](https://github.com/ajoklar/makepad-library-sample/assets/79520908/2e6a70d3-7b9b-4ecd-97f9-bc0af972212b)
+
+https://github.com/ajoklar/makepad-library-sample/assets/79520908/9f383533-3ebc-4741-beb0-170f928aab78
+
 ## Build Instructions
 
 - Make sure to have [cargo make](https://github.com/sagiegurari/cargo-make) and Android NDK 25.2.9519653 installed
