@@ -1,0 +1,4 @@
+framework module makepadsampleFFI {
+    header "makepadsampleFFI.h"
+    export *
+}
