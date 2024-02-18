@@ -1,0 +1,26 @@
+# Mac
+.DS_Store
+
+# Rust / cargo
+*.so
+target/
+Cargo.lock
+
+# Android Studio
+.gradle/
+.idea/
+*.iml
+build/
+local.properties
+
+# SwiftPM
+/.build
+/Packages
+/*.xcodeproj
+xcuserdata/
+DerivedData/
+.swiftpm/config/registries.json
+.swiftpm/xcode/package.xcworkspace/contents.xcworkspacedata
+.netrc
+*.zip
+*.xcframework
