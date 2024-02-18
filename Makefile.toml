@@ -1,0 +1,26 @@
+[tasks.all] 
+dependencies = ["android", "ios"]
+
+[tasks.android]
+command = "cargo"
+args = ["ndk", "-t", "armeabi-v7a", "-t", "arm64-v8a", "-t", "x86_64", "-o", "android/MakepadSample/src/main/jniLibs", "build", "-p", "makepadsample", "--release"]
+
+[tasks.ios]
+script = '''
+# build for all iOS targets
+cargo build -p makepadsample --release --target x86_64-apple-ios
+cargo build -p makepadsample --release --target aarch64-apple-ios-sim
+cargo build -p makepadsample --release --target aarch64-apple-ios
+# assemble frameworks
+find . -type d -name makepadsampleFFI.framework -exec rm -rf {} \; || echo "rm failed"
+(cd target/x86_64-apple-ios/release && mkdir -p makepadsampleFFI.framework && cd makepadsampleFFI.framework && mkdir -p Headers Modules Resources && cp ../../../../misc/ios/makepadsampleFFI.modulemap ./Modules/module.modulemap && cp ../../../../misc/ios/makepadsampleFFI.h ./Headers/makepadsampleFFI.h && cp ../libmakepadsample.a ./makepadsampleFFI && cp ../../../../misc/ios/Info.plist ./Resources)
+(cd target/aarch64-apple-ios-sim/release && mkdir -p makepadsampleFFI.framework && cd makepadsampleFFI.framework && mkdir -p Headers Modules Resources && cp ../../../../misc/ios/makepadsampleFFI.modulemap ./Modules/module.modulemap && cp ../../../../misc/ios/makepadsampleFFI.h ./Headers/makepadsampleFFI.h && cp ../libmakepadsample.a ./makepadsampleFFI && cp ../../../../misc/ios/Info.plist ./Resources)
+(cd target/aarch64-apple-ios/release && mkdir -p makepadsampleFFI.framework && cd makepadsampleFFI.framework && mkdir -p Headers Modules Resources && cp ../../../../misc/ios/makepadsampleFFI.modulemap ./Modules/module.modulemap && cp ../../../../misc/ios/makepadsampleFFI.h ./Headers/makepadsampleFFI.h && cp ../libmakepadsample.a ./makepadsampleFFI && cp ../../../../misc/ios/Info.plist ./Resources)
+# generate xcframework
+lipo -create target/x86_64-apple-ios/release/makepadsampleFFI.framework/makepadsampleFFI target/aarch64-apple-ios-sim/release/makepadsampleFFI.framework/makepadsampleFFI -output target/aarch64-apple-ios-sim/release/makepadsampleFFI.framework/makepadsampleFFI
+rm -rf swiftpackage/Sources/makepadsampleFFI.xcframework || echo "skip removing"
+xcodebuild -create-xcframework -framework target/aarch64-apple-ios/release/makepadsampleFFI.framework -framework target/aarch64-apple-ios-sim/release/makepadsampleFFI.framework -output swiftpackage/Sources/makepadsampleFFI.xcframework
+'''
+
+[config]
+default_to_workspace = false
